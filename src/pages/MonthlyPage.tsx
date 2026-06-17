@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getRecords, getSettings, formatDurationDecimal } from '../store';
+import { getRecords, getSettings, formatDurationDecimal, formatDuration } from '../store';
 import { SleepRecord } from '../types';
 
 function getMonthDays(year: number, month: number): string[] {
@@ -161,6 +161,48 @@ export default function MonthlyPage() {
                 {tag} ({count})
               </span>
             ))}
+          </div>
+        </div>
+      )}
+
+      {monthRecords.length > 0 && (
+        <div className="card">
+          <div className="card-title">每日记录</div>
+          <div className="sleep-records">
+            {monthDays.map(dateStr => {
+              const record = records.find(r => r.date === dateStr);
+              return (
+                <div key={dateStr} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '12px 0' }}>
+                  <div className="record-item" style={{ padding: 0, borderBottom: 'none' }}>
+                    <div>
+                      <div className="record-date">{dateStr}</div>
+                      {record ? (
+                        <div className="record-time">{record.bedTime} - {record.wakeTime}</div>
+                      ) : (
+                        <div className="record-time" style={{ color: 'rgba(255,255,255,0.2)' }}>无记录</div>
+                      )}
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      {record ? (
+                        <>
+                          <div className={`record-duration ${record.duration < targetMinutes ? 'unmet' : ''}`}>
+                            {formatDuration(record.duration)}
+                          </div>
+                          <span className={`quality-badge quality-${record.quality}`}>
+                            {record.quality}星
+                          </span>
+                        </>
+                      ) : (
+                        <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.85rem' }}>-</span>
+                      )}
+                    </div>
+                  </div>
+                  {record?.note && (
+                    <div className="record-note-inline">{record.note}</div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
