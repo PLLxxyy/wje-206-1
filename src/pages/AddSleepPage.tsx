@@ -13,6 +13,7 @@ export default function AddSleepPage({ onClose, onSaved }: Props) {
   const [quality, setQuality] = useState(3);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [date, setDate] = useState(getTodayStr());
+  const [note, setNote] = useState('');
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev =>
@@ -35,6 +36,7 @@ export default function AddSleepPage({ onClose, onSaved }: Props) {
       duration,
       quality,
       tags: selectedTags,
+      note: note.trim() || undefined,
       createdAt: Date.now(),
     };
 
@@ -108,6 +110,17 @@ export default function AddSleepPage({ onClose, onSaved }: Props) {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="form-group">
+          <label>备注（运动、饮食等）</label>
+          <textarea
+            className="note-input"
+            value={note}
+            onChange={e => setNote(e.target.value)}
+            placeholder="记录当天的运动、饮食或其他影响睡眠的情况..."
+            rows={3}
+          />
         </div>
 
         <div style={{ marginTop: 24 }}>

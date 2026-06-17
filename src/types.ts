@@ -6,6 +6,7 @@ export interface SleepRecord {
   duration: number; // minutes
   quality: number; // 1-5
   tags: string[];
+  note?: string;
   createdAt: number;
 }
 

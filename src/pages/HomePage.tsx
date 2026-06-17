@@ -75,6 +75,10 @@ export default function HomePage() {
                 ))}
               </div>
             )}
+
+            {record.note && (
+              <div className="record-note">{record.note}</div>
+            )}
           </>
         ) : (
           <div className="empty-state">
@@ -92,19 +96,24 @@ export default function HomePage() {
           <div className="card-title">最近记录</div>
           <div className="sleep-records">
             {recentRecords.map(r => (
-              <div key={r.id} className="record-item">
-                <div>
-                  <div className="record-date">{r.date}</div>
-                  <div className="record-time">{r.bedTime} - {r.wakeTime}</div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div className={`record-duration ${r.duration < targetMinutes ? 'unmet' : ''}`}>
-                    {formatDuration(r.duration)}
+              <div key={r.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '12px 0' }}>
+                <div className="record-item" style={{ padding: 0, borderBottom: 'none' }}>
+                  <div>
+                    <div className="record-date">{r.date}</div>
+                    <div className="record-time">{r.bedTime} - {r.wakeTime}</div>
                   </div>
-                  <span className={`quality-badge quality-${r.quality}`}>
-                    {r.quality}星
-                  </span>
+                  <div style={{ textAlign: 'right' }}>
+                    <div className={`record-duration ${r.duration < targetMinutes ? 'unmet' : ''}`}>
+                      {formatDuration(r.duration)}
+                    </div>
+                    <span className={`quality-badge quality-${r.quality}`}>
+                      {r.quality}星
+                    </span>
+                  </div>
                 </div>
+                {r.note && (
+                  <div className="record-note-inline">{r.note}</div>
+                )}
               </div>
             ))}
           </div>

@@ -129,29 +129,34 @@ export default function WeeklyPage() {
         <div className="card-title">每日详情</div>
         <div className="sleep-records">
           {days.map((day, i) => (
-            <div key={i} className="record-item">
-              <div>
-                <div className="record-date">{day.dateStr} 周{day.dayName}</div>
-                {day.record ? (
-                  <div className="record-time">{day.record.bedTime} - {day.record.wakeTime}</div>
-                ) : (
-                  <div className="record-time" style={{ color: 'rgba(255,255,255,0.2)' }}>无记录</div>
-                )}
+            <div key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '12px 0' }}>
+              <div className="record-item" style={{ padding: 0, borderBottom: 'none' }}>
+                <div>
+                  <div className="record-date">{day.dateStr} 周{day.dayName}</div>
+                  {day.record ? (
+                    <div className="record-time">{day.record.bedTime} - {day.record.wakeTime}</div>
+                  ) : (
+                    <div className="record-time" style={{ color: 'rgba(255,255,255,0.2)' }}>无记录</div>
+                  )}
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  {day.record ? (
+                    <>
+                      <div className={`record-duration ${day.record.duration < targetMinutes ? 'unmet' : ''}`}>
+                        {formatDuration(day.record.duration)}
+                      </div>
+                      <span className={`quality-badge quality-${day.record.quality}`}>
+                        {day.record.quality}星
+                      </span>
+                    </>
+                  ) : (
+                    <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.85rem' }}>-</span>
+                  )}
+                </div>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                {day.record ? (
-                  <>
-                    <div className={`record-duration ${day.record.duration < targetMinutes ? 'unmet' : ''}`}>
-                      {formatDuration(day.record.duration)}
-                    </div>
-                    <span className={`quality-badge quality-${day.record.quality}`}>
-                      {day.record.quality}星
-                    </span>
-                  </>
-                ) : (
-                  <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.85rem' }}>-</span>
-                )}
-              </div>
+              {day.record?.note && (
+                <div className="record-note-inline">{day.record.note}</div>
+              )}
             </div>
           ))}
         </div>
